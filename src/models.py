@@ -8,6 +8,9 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
+#tables for Star Wars
+
+
 class Person(Base):
     __tablename__ = 'person'
     # Here we define columns for the table person
