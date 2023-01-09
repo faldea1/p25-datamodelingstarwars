@@ -8,29 +8,44 @@ from eralchemy2 import render_er
 
 Base = declarative_base()
 
-#tables for Star Wars
+##DATA MODELING A STAR WARS BLOG:
+    ##1ero, definir número de tablas/clases.
+    ##2do, definir nombres de tablas.
+    ##3ero, pK (primary key) a las tablas, después de esto puedo generar diagrama ($python src/models.py). 
+    ##4to, ya puedo empezar con las relaciones y especificar fK (foreign key) y quitar pK (del 3er paso) a tablas cuando corresponda.
 
 
-class Person(Base):
-    __tablename__ = 'person'
-    # Here we define columns for the table person
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    name = Column(String(250), nullable=False)
 
-class Address(Base):
-    __tablename__ = 'address'
-    # Here we define columns for the table address.
-    # Notice that each column is also a normal Python instance attribute.
-    id = Column(Integer, primary_key=True)
-    street_name = Column(String(250))
-    street_number = Column(String(250))
-    post_code = Column(String(250), nullable=False)
-    person_id = Column(Integer, ForeignKey('person.id'))
-    person = relationship(Person)
+class Favorite(Base):
+    __tablename__ = 'favorite'
+    id = Column (Integer, primary_key=True)
 
-    def to_dict(self):
-        return {}
+
+class User(Base):
+    __tablename__ = 'user'
+    id = Column (Integer, primary_key=True)
+
+
+class Character(Base):
+    __tablename__ = 'character'
+    id = Column (Integer, primary_key=True)
+
+
+class Vehicle(Base):
+    __tablename__ = 'vehicle'
+    id = Column (Integer, primary_key=True)
+
+
+class Starship(Base):
+    __tablename__ = 'starship'
+    id = Column (Integer, primary_key=True)
+
+
+class Planet(Base):
+    __tablename__ = 'planet'
+    id = Column (Integer, primary_key=True)
+
+
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
