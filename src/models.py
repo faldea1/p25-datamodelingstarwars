@@ -21,7 +21,6 @@ class User(Base):
     id = Column (Integer, primary_key=True)
     user_name = Column (String(25), nullable=False, unique=True)
     email = Column (String(30), nullable=False, unique=True)
-    favorite_id = Column(Integer, ForeignKey('favorite.id'))
 
     ##methods (validar inicio de usuario, lista de favoritos ->  eliminados y agregados)
     def loginVerification(self):
@@ -36,11 +35,16 @@ class User(Base):
 
 class Favorite(Base):
     __tablename__ = 'favorite'
-    id = Column (Integer, primary_key=True)
-    character_id = Column (Integer, nullable=True, ForeignKey('character.id'))
-    vehicle_id = Column (Integer, nullable=True, ForeignKey('vehicle.id'))
-    starship_id = Column (Integer, nullable=True, ForeignKey('starship.id'))
-    planet_id = Column (Integer, nullable=True, ForeignKey('planet.id'))
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable=True)
+    character_id = Column (Integer, ForeignKey('character.id'), nullable=True)
+    vehicle_id = Column (Integer, ForeignKey('vehicle.id'), nullable=True)
+    starship_id = Column (Integer, ForeignKey('starship.id'), nullable=True)
+    planet_id = Column (Integer, ForeignKey('planet.id'), nullable=True)
+    characterfav = relationship('Character', back_populates='children1')
+    vehiclefav = relationship('Vehicle', back_populates='children2')
+    starshipfav = relationship('Starship', back_populates='children3')
+    planetfav = relationship('Planet', back_populates='children4') 
 
     ##No es obligatorio escoger favoritos para cada categoria. Pueden tener o no tener, y en caso de haber, puede ser 1 o más.
 
@@ -55,6 +59,7 @@ class Character(Base):
     skin_color = Column(String(60), nullable=False)
     hair_color = Column(String(60), nullable=False)
     eye_color = Column(String(60), nullable=False)
+    children1 = relationship('Favorite', back_populates='characterfav')
 
 
 class Vehicle(Base):
@@ -69,6 +74,7 @@ class Vehicle(Base):
     passengers = Column(Integer, nullable=False)
     cargo_capacity = Column(Integer, nullable=False)
     consumables = Column(String(50), nullable=False)
+    children2= relationship('Favorite', back_populates='vehiclefav')
 
 
 class Starship(Base):
@@ -83,6 +89,7 @@ class Starship(Base):
     passengers = Column(Integer, nullable=False)
     cargo_capacity = Column(Integer, nullable=False)
     consumables = Column(String(100), nullable=False)
+    children3 = relationship('Favorite', back_populates='starshipfav')
 
 class Planet(Base):
     __tablename__ = 'planet'
@@ -96,7 +103,7 @@ class Planet(Base):
     gravity = Column(String(150), nullable=False)
     orbital_period = Column(Integer, nullable=False)
     rotation_period = Column(Integer, nullable=False)
-
+    children4 = relationship('Favorite', back_populates='planetfav')
 
 ## Draw from SQLAlchemy base
 render_er(Base, 'diagram.png')
