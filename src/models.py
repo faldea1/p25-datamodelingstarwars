@@ -23,7 +23,7 @@ class User(Base):
     email = Column (String(30), nullable=False, unique=True)
     favorite_id = Column(Integer, ForeignKey('favorite.id'))
 
-    ##methods (validar inicio de usuario, favoritos eliminados/descartados, favoritos agregados/guardados)
+    ##methods (validar inicio de usuario, lista de favoritos ->  eliminados y agregados)
     def loginVerification(self):
         """ Verifying Login """
 
@@ -38,31 +38,64 @@ class Favorite(Base):
     __tablename__ = 'favorite'
     id = Column (Integer, primary_key=True)
     character_id = Column (Integer, nullable=True, ForeignKey('character.id'))
-    vehicle_id = Column (Integer, nullable=True, ForeignKey('vehicle.id') )
-    starship_id = Column (Integer, nullable=True, ForeignKey('starship.id') )
-    planet_id = Column (Integer, nullable=True, ForeignKey('planet.id') )
+    vehicle_id = Column (Integer, nullable=True, ForeignKey('vehicle.id'))
+    starship_id = Column (Integer, nullable=True, ForeignKey('starship.id'))
+    planet_id = Column (Integer, nullable=True, ForeignKey('planet.id'))
 
     ##No es obligatorio escoger favoritos para cada categoria. Pueden tener o no tener, y en caso de haber, puede ser 1 o más.
 
 class Character(Base):
     __tablename__ = 'character'
     id = Column (Integer, primary_key=True)
+    name = Column(String(40), nullable=False, unique=True)
+    gender = Column(String(60), nullable=False)
+    birth_year = Column(Integer, nullable=False)
+    height = Column(Integer, nullable=False)
+    mass = Column(Integer, nullable=False)
+    skin_color = Column(String(60), nullable=False)
+    hair_color = Column(String(60), nullable=False)
+    eye_color = Column(String(60), nullable=False)
 
 
 class Vehicle(Base):
     __tablename__ = 'vehicle'
     id = Column (Integer, primary_key=True)
+    name = Column(String(50), nullable=False, unique=True)
+    model = Column(String(50), nullable=False)
+    vehicle_class = Column(String(50), nullable=False)
+    length = Column(Integer, nullable=False)
+    manufacturer = Column(String(50), nullable=False)
+    crew = Column(Integer, nullable=False)
+    passengers = Column(Integer, nullable=False)
+    cargo_capacity = Column(Integer, nullable=False)
+    consumables = Column(String(50), nullable=False)
 
 
 class Starship(Base):
     __tablename__ = 'starship'
     id = Column (Integer, primary_key=True)
-
+    name = Column(String(100), nullable=False, unique=True)
+    model = Column(String(100), nullable=False)
+    starship_class = Column(String(100), nullable=False)
+    length = Column(Integer, nullable=False)
+    manufacturer = Column(String(100), nullable=False)
+    crew = Column(Integer, nullable=False)
+    passengers = Column(Integer, nullable=False)
+    cargo_capacity = Column(Integer, nullable=False)
+    consumables = Column(String(100), nullable=False)
 
 class Planet(Base):
     __tablename__ = 'planet'
     id = Column (Integer, primary_key=True)
-
+    name = Column(String(150), nullable=False, unique=True)
+    population = Column(Integer, nullable=False)
+    climate = Column(String(150), nullable=False)
+    terrain = Column(String(150), nullable=False)
+    surface_water = Column(Integer, nullable=False)
+    diameter = Column(Integer, nullable=False)
+    gravity = Column(String(150), nullable=False)
+    orbital_period = Column(Integer, nullable=False)
+    rotation_period = Column(Integer, nullable=False)
 
 
 ## Draw from SQLAlchemy base
